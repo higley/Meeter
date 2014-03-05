@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="utf-8">
+	<title></title>
+	<meta name="description" content="" />
+  	<meta name="keywords" content="" />
+	<meta name="robots" content="" />
+	<style>
+		#cost {font-size:18px;margin:0;font-family:Cambria;text-shadow: 1px 1px 1px gray;}
+		html {background-color:#529ac4; color:white;}
+	</style>
+</head>
+<body>
+<p id="cost"></p>
+	<script>
+		var rate = 70;
+		var people = 7;
+		var seconds = 0;
+		var fontsize = 18;
+		
+		function getCost()
+		{
+			var rtn =  ((rate/28800) * people * (seconds)).toFixed(2);
+			return rtn;
+		}
+
+		var timeoutID;
+		
+		var timer = {
+		  update: function() {
+		  	var elm = document.getElementById("cost");
+		    elm.innerHTML = "$" + getCost();
+		    if(seconds > 0 && (seconds/8) % 10 == 0) {
+			    fontsize = fontsize + 5;
+			    elm.style.fontSize = fontsize + "px";
+		    }
+		    seconds++;
+		  },
+		
+		  setup: function() {
+		    if(typeof timeoutID == "number") {
+		  		this.cancel();
+		    }
+		    else {
+				var self = this;
+				seconds = 0;
+				fontsize = 14;
+				timeoutID = window.setInterval(function() {self.update();}, 125);
+		    }
+		  },
+		
+		  cancel: function() {
+		      window.clearInterval(timeoutID);
+			  timeoutID = null;
+		  }
+		};
+		window.onclick = function() { timer.setup() };
+	</script>
+</body>
+</html>
