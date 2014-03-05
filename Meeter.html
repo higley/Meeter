@@ -2,7 +2,7 @@
 <html lang="">
 <head>
   <meta charset="utf-8">
-	<title></title>
+	<title>Meeter || What does your meeting cost?</title>
 	<meta name="description" content="" />
   	<meta name="keywords" content="" />
 	<meta name="robots" content="" />
@@ -12,13 +12,17 @@
 	</style>
 </head>
 <body>
-<p id="cost"></p>
+<p id="cost">Click anywhere to start timer</p>
 	<script>
 		var rate = 70;
 		var people = 7;
 		var seconds = 0;
-		var fontsize = 18;
+		var startfontsize = 18;
+		var fontsize = startfontsize;
+		var increasetimer = 10;
+		var fontincrease = 5;
 		var updaterate = 8
+		var timeoutID;
 		
 		function getCost()
 		{
@@ -26,14 +30,12 @@
 			return rtn;
 		}
 
-		var timeoutID;
-		
 		var timer = {
 		  update: function() {
 		  	var elm = document.getElementById("cost");
 		    elm.innerHTML = "$" + getCost();
-		    if(seconds > 0 && (seconds / updaterate) % 10 == 0) {
-			    fontsize = fontsize + 5;
+		    if(seconds > 0 && (seconds / updaterate) % increasetimer == 0) {
+			    fontsize = fontsize + fontincrease;
 			    elm.style.fontSize = fontsize + "px";
 		    }
 		    seconds++;
@@ -46,7 +48,7 @@
 		    else {
 				var self = this;
 				seconds = 0;
-				fontsize = 14;
+				fontsize = startfontsize;
 				timeoutID = window.setInterval(function() {self.update();}, (1/updaterate)*1000);
 		    }
 		  },
