@@ -4,26 +4,36 @@
   <meta charset="utf-8">
 	<title>Meeter || What does your meeting cost?</title>
 	<meta name="description" content="" />
-  	<meta name="keywords" content="" />
+    <meta name="keywords" content="" />
 	<meta name="robots" content="" />
 	<style>
 		#cost {font-size:18px;margin:0;font-family:Cambria;text-shadow: 1px 1px 1px gray;}
 		html {background-color:#529ac4; color:white;}
+		label {width:200px;display:inline-block;}
+		input {vertical-align: middle;margin-bottom:20px;width:50px}
 	</style>
 </head>
 <body>
 <p id="cost">Click anywhere to start timer</p>
+<div style="margin-top:50px">
+	<label for="rate">Dollars per hour per person</label><input type="number" value="70" id="rate"><br/>
+	<label for="people">Number of people in the meeting</label><input type="number" value="7" id="people"><br/>
+	<label for="startfontsize">Starting font size</label><input type="number" value="18" id="startfontsize"><br/>
+	<label for="increasetimer">Number of seconds to increase font size</label><input type="number" value="10" id="increasetimer"><br/>
+	<label for="fontincrease">Number of pixels to increase on timer</label><input type="number" value="5" id="fontincrease"><br/>
+	<label for="updaterate">Fraction of a second to update</label><input type="number" value="8" id="updaterate"><br/>
+</div>
 	<script>
-		var rate = 70;
-		var people = 7;
+		var rate = parseFloat(document.getElementById("rate").value);
+		var people = parseInt(document.getElementById("people").value);
 		var seconds = 0;
-		var startfontsize = 18;
+		var increasetimer = parseInt(document.getElementById("increasetimer").value);
+		var fontincrease = parseInt(document.getElementById("fontincrease").value);
+		var updaterate = parseInt(document.getElementById("updaterate").value);
+		var startfontsize = parseInt(document.getElementById("startfontsize").value);
 		var fontsize = startfontsize;
-		var increasetimer = 10;
-		var fontincrease = 5;
-		var updaterate = 8
 		var timeoutID;
-		
+
 		function getCost()
 		{
 			var rtn =  ((rate/(3600*updaterate)) * people * (seconds)).toFixed(2);
@@ -40,7 +50,7 @@
 		    }
 		    seconds++;
 		  },
-		
+
 		  setup: function() {
 		    if(typeof timeoutID == "number") {
 		  		this.cancel();
@@ -52,7 +62,7 @@
 				timeoutID = window.setInterval(function() {self.update();}, (1/updaterate)*1000);
 		    }
 		  },
-		
+
 		  cancel: function() {
 		      window.clearInterval(timeoutID);
 			  timeoutID = null;
